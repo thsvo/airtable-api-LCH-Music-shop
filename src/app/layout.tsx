@@ -29,9 +29,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased lg:pl-8 lg:pr-8`}
       >
         {children}
-      
+        <Footer></Footer>
       </body>
-      <Footer></Footer>
+
     </html>
   );
 }
