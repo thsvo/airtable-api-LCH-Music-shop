@@ -214,8 +214,8 @@ export default function Home() {
             Search Music
           </Typography>
 
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} md={6}>
+          <div className="flex flex-wrap -mx-2 pt-3">
+            <div className="w-full md:w-1/2 px-2 mb-4 md:mb-0">
               <TextField
                 fullWidth
                 label="Search"
@@ -231,8 +231,8 @@ export default function Home() {
                   ),
                 }}
               />
-            </Grid>
-            <Grid item xs={12} md={3}>
+            </div>
+            <div className="w-full md:w-1/4 px-2 mb-4 md:mb-0">
               <FormControl fullWidth>
                 <InputLabel>Search In</InputLabel>
                 <Select
@@ -247,8 +247,8 @@ export default function Home() {
                   <MenuItem value="Style">Style</MenuItem>
                 </Select>
               </FormControl>
-            </Grid>
-            <Grid item xs={6} md={1.5}>
+            </div>
+            <div className="w-1/2 md:w-1/8 px-2 mb-4 md:mb-0">
               <Button
                 variant="contained"
                 color="primary"
@@ -257,8 +257,8 @@ export default function Home() {
               >
                 Search
               </Button>
-            </Grid>
-            <Grid item xs={6} md={1.5}>
+            </div>
+            <div className="w-1/2 md:w-1/8 px-2">
               <Button
                 variant="outlined"
                 color="secondary"
@@ -267,8 +267,8 @@ export default function Home() {
               >
                 Clear
               </Button>
-            </Grid>
-          </Grid>
+            </div>
+          </div>
         </Box>
 
         {/* Search Results */}
@@ -363,9 +363,9 @@ export default function Home() {
               Music Categories
             </Typography>
 
-            <Grid container spacing={2} justifyContent="center">
+            <div className="flex flex-wrap -mx-2 justify-center">
               {categories.map((category, index) => (
-                <Grid component="div" item key={index} className="category-item">
+                <div key={index} className="px-2 mb-4 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 category-item">
                   <Chip
                     label={category}
                     clickable
@@ -376,6 +376,7 @@ export default function Home() {
                       padding: '20px 10px',
                       borderRadius: '16px',
                       transition: 'all 0.3s ease',
+                      width: '100%',
                       '&:hover': {
                         transform: 'translateY(-5px)',
                         boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
@@ -401,9 +402,9 @@ export default function Home() {
                       setIsSearching(true);
                     }}
                   />
-                </Grid>
+                </div>
               ))}
-            </Grid>
+            </div>
           </div>
         )}
 
