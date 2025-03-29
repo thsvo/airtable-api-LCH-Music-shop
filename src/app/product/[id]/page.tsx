@@ -52,7 +52,7 @@ export default function ProductPage() {
     <div>
       <Header records={[]} />
       
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto p-4 min-h-screen">
         {loading && <p className="text-center py-8">Loading product details...</p>}
         
         {error && <p className="text-red-500 text-center py-8">Error: {error}</p>}

@@ -54,7 +54,7 @@ export default function CategoryPage({ categoryName }: CategoryPageProps) {
     <div>
       <Header records={records} />
       
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto p-4  min-h-screen">
         <h1 className="text-3xl font-bold mb-6">{categoryName}</h1>
         
         {loading && <p className="text-center py-8">Loading {categoryName.toLowerCase()} music...</p>}
