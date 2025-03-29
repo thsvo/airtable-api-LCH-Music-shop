@@ -44,6 +44,30 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     );
   };
 
+  // Function to render audio player if available
+  const renderAudio = () => {
+    if (!fields['Audio Sample']) return null;
+    
+    // Check if it's a URL or an array of attachments
+    if (typeof fields['Audio Sample'] === 'string') {
+      return (
+        <audio controls className="w-full">
+          <source src={fields['Audio Sample']} type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+      );
+    } else if (Array.isArray(fields['Audio Sample']) && fields['Audio Sample'][0]?.url) {
+      return (
+        <audio controls className="w-full">
+          <source src={fields['Audio Sample'][0].url} type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+      );
+    }
+    
+    return <p>Audio format not supported</p>;
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -121,10 +145,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       {fields['Audio Sample'] && (
         <div className="mt-8">
           <h2 className="text-2xl font-bold mb-4">Audio Sample</h2>
-          <audio controls className="w-full">
-            <source src={fields['Audio Sample']} type="audio/mpeg" />
-            Your browser does not support the audio element.
-          </audio>
+          {renderAudio()}
         </div>
       )}
       
