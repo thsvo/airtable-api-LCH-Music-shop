@@ -6,9 +6,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import Header from '@/components/Header';
 
 export default function HolidayPage() {
-  const [records, setRecords] = useState([]);
+  const [records, setRecords] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<any>(null);
 
   useEffect(() => {
     const fetchHolidayData = async () => {
@@ -31,17 +31,17 @@ export default function HolidayPage() {
           throw new Error('Failed to fetch data from Airtable');
         }
 
-        const data = await response.json();
+        const data: any = await response.json();
         
         // Filter records for Holiday (Style 1) and Status = "Done"
-        const filteredRecords = data.records.filter(record => {
+        const filteredRecords = data.records.filter((record: any) => {
           const fields = record.fields;
           return fields['Style 1'] === 'Holiday' && fields['Status'] === 'Done';
         });
         
         setRecords(filteredRecords);
         setLoading(false);
-      } catch (err) {
+      } catch (err: any) {
         setError(err.message);
         setLoading(false);
       }
@@ -66,13 +66,13 @@ export default function HolidayPage() {
         )}
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {records.map((record) => (
+          {records.map((record: any) => (
             <Card key={record.id} className="overflow-hidden">
               <CardContent className="p-0">
                 <div className="aspect-square relative">
                   {record.fields['Cover Scan'] && record.fields['Cover Scan'][0] && (
                     <Image
-                      src={record.fields['Cover Scan'][0].url}
+                      src={record.fields['Cover Scan'][0].url || ''}
                       alt={record.fields['Product Name'] || 'Cover image'}
                       fill
                       className="object-cover"

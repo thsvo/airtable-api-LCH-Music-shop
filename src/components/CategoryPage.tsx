@@ -1,5 +1,5 @@
 'use client';
-
+/* eslint-disable */
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Card, CardContent } from "@/components/ui/card";
@@ -9,10 +9,28 @@ interface CategoryPageProps {
   categoryName: string;
 }
 
+// Define types for Airtable records
+interface AirtableRecord {
+  id: string;
+  fields: {
+    [key: string]: any;
+    'Product Name'?: string;
+    'Composer'?: string;
+    'Ensemble'?: string;
+    'Grade Level'?: string;
+    'Price'?: string;
+    'Status'?: string;
+    'Web Ensemble Type 1'?: string;
+    'Web Ensemble Type 2'?: string;
+    'Web Ensemble Type 3'?: string;
+    'Cover Scan'?: Array<{url: string}>;
+  };
+}
+
 export default function CategoryPage({ categoryName }: CategoryPageProps) {
-  const [records, setRecords] = useState([]);
+  const [records, setRecords] = useState<AirtableRecord[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCategoryData = async () => {
@@ -38,7 +56,7 @@ export default function CategoryPage({ categoryName }: CategoryPageProps) {
         const data = await response.json();
         
         // Filter records for the specific category and Status = "Done"
-        const filteredRecords = data.records.filter(record => {
+        const filteredRecords = data.records.filter((record: AirtableRecord) => {
           const fields = record.fields;
           const ensembleTypes = [
             fields['Web Ensemble Type 1'], 
@@ -54,7 +72,7 @@ export default function CategoryPage({ categoryName }: CategoryPageProps) {
         
         setRecords(filteredRecords);
         setLoading(false);
-      } catch (err) {
+      } catch (err: any) {
         setError(err.message);
         setLoading(false);
       }

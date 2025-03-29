@@ -49,7 +49,8 @@ export default function Home() {
           let videoId = '';
           
           if (videoLink.includes('youtube.com/watch?v=')) {
-            videoId = new URL(videoLink).searchParams.get('v');
+            const vParam = new URL(videoLink).searchParams.get('v');
+            videoId = vParam || '';
           } else if (videoLink.includes('youtu.be/')) {
             videoId = videoLink.split('youtu.be/')[1].split('?')[0];
           } else if (videoLink.includes('youtube.com/embed/')) {
@@ -62,7 +63,7 @@ export default function Home() {
         }
         
         console.log(data.records[0].fields.Video);
-      } catch (err) {
+      } catch (err: any) {
         setError(err.message);
         setLoading(false);
       }
