@@ -100,7 +100,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 {/* Right column - Product details */}
                 <div>
                     <h1 className="text-3xl font-bold mb-2">{fields['Product Name']}</h1>
-                    <p className="text-xl mb-1">{fields['Ensemble']}</p>
+                    {fields['Web Ensemble Type 1'] && (
+                        <p className="text-xl mb-4 text-gray-600">{fields['Web Ensemble Type 1']}</p>
+                    )}
 
                     <div className="mb-4">
                         <p className="text-lg">
