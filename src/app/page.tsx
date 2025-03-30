@@ -4,7 +4,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Header from '@/components/Header';
-import { Box, Card, CardContent, CardMedia, Typography, Grid, Container, Chip, TextField, InputAdornment, FormControl, InputLabel, Select, MenuItem, Button } from '@mui/material';
+import { Box, Card, CardContent, CardMedia, Typography, Grid, Container, Chip, TextField, InputAdornment, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
@@ -16,6 +16,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import router from 'next/router';
+import { Button } from '@/components/ui/button';
 
 // Define types for our records
 interface AirtableRecord {
@@ -296,19 +297,19 @@ export default function Home() {
             </div>
             <div className="w-1/2 md:w-1/8 px-2 mb-4 md:mb-0">
               <Button
-                variant="contained"
+                variant="default"
                 color="primary"
-                fullWidth
-                onClick={handleSearch}
+                className="w-40 h-13"
+                onClick={() => handleSearch()}
               >
                 Search
               </Button>
             </div>
             <div className="w-1/2 md:w-1/8 px-2">
               <Button
-                variant="outlined"
+                variant="outline"
                 color="secondary"
-                fullWidth
+                className="w-40 h-13"
                 onClick={clearSearch}
               >
                 Clear
