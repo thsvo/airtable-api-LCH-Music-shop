@@ -48,11 +48,60 @@ export default function Home() {
 
   // Categories list
   const categories = [
-    'Home', 'Concert Band', 'Full Orchestra', 'String Orchestra',
+     'Concert Band', 'Full Orchestra', 'String Orchestra',
     'Strings', 'Horn Music', 'Brass Music', 'Woodwinds',
     'Vocal', 'Piano', 'Holiday', 'Other', 'About',
-    'Contact Us', 'Services', 'Opera', 'Classical Music Is…'
+    'Contact Us', 'Services', 'Opera'
   ];
+
+  // Add function to handle category selection
+  const handleCategoryClick = (category: string) => {
+    if (category === "Home") {
+      setIsSearching(false);
+      return;
+    }
+
+    // Set search term to the category name
+    setSearchTerm(category);
+    setSearchCategory("all");
+
+    // Call the search function to filter records
+    handleSearch(category);
+  };
+
+  // Add search function
+  const handleSearch = (categoryOverride?: string) => {
+    const term = categoryOverride || searchTerm.trim();
+    
+    if (!term) {
+      setIsSearching(false);
+      return;
+    }
+
+    setIsSearching(true);
+    const searchText = term.toLowerCase();
+
+    const results = records.filter(record => {
+      // First check if status is "Done"
+      if (!record.fields.Status || record.fields.Status !== "Done") {
+        return false;
+      }
+
+      // If a specific category is selected, filter by that field
+      if (searchCategory !== "all") {
+        const fieldValue = record.fields[searchCategory];
+        return fieldValue && String(fieldValue).toLowerCase().includes(searchText);
+      }
+
+      // Otherwise search across all fields
+      return Object.values(record.fields).some(value =>
+        value && String(value).toLowerCase().includes(searchText)
+      );
+    });
+
+    setSearchResults(results);
+    console.log(`Search for "${term}" found ${results.length} results`);
+  };
 
   useEffect(() => {
     const fetchAirtableData = async () => {
@@ -134,24 +183,34 @@ export default function Home() {
 
   // Filter records by ensemble type
   const getRecordsByCategory = (category: string) => {
+    // First filter for records with status "Done"
+    const doneRecords = records.filter(record => record.fields.Status === "Done");
+    console.log(`Total records with Status "Done": ${doneRecords.length}`);
+    
     if (category === 'Holiday') {
-      return records.filter(record => record.fields.Style?.includes('Holiday'));
+      // Check both Style and Ensemble fields for Holiday
+      const holidayRecords = doneRecords.filter(record => 
+        (record.fields.Style && String(record.fields.Style).toLowerCase().includes('holiday')) ||
+        (record.fields.Ensemble && String(record.fields.Ensemble).toLowerCase().includes('holiday'))
+      );
+      console.log(`Found ${holidayRecords.length} Holiday records`);
+      return holidayRecords;
     }
 
-    // For other categories, match with Ensemble field
-    return records.filter(record => {
-      const ensemble = record.fields.Ensemble || '';
-      if (category === 'Home') return true; // All records for Home
-      if (category === 'Concert Band') return ensemble.includes('Concert Band');
-      if (category === 'Full Orchestra') return ensemble.includes('Full Orchestra');
-      if (category === 'String Orchestra') return ensemble.includes('String Orchestra');
-      if (category === 'Strings') return ensemble.includes('String');
-      if (category === 'Horn Music') return ensemble.includes('Horn');
-      if (category === 'Brass Music') return ensemble.includes('Brass');
-      if (category === 'Woodwinds') return ensemble.includes('Woodwind');
-      if (category === 'Vocal') return ensemble.includes('Vocal');
-      if (category === 'Piano') return ensemble.includes('Piano');
-      if (category === 'Opera') return ensemble.includes('Opera');
+    // For other categories, match with Ensemble field - case insensitive
+    const filteredRecords = doneRecords.filter(record => {
+      const ensemble = record.fields.Ensemble ? String(record.fields.Ensemble).toLowerCase() : '';
+      
+      if (category === 'Concert Band') return ensemble.toLowerCase().includes('concert band');
+      if (category === 'Full Orchestra') return ensemble.toLowerCase().includes('full orchestra');
+      if (category === 'String Orchestra') return ensemble.toLowerCase().includes('string orchestra');
+      if (category === 'Strings') return ensemble.toLowerCase().includes('string');
+      if (category === 'Horn Music') return ensemble.toLowerCase().includes('horn');
+      if (category === 'Brass Music') return ensemble.toLowerCase().includes('brass');
+      if (category === 'Woodwinds') return ensemble.toLowerCase().includes('woodwind');
+      if (category === 'Vocal') return ensemble.toLowerCase().includes('vocal');
+      if (category === 'Piano') return ensemble.toLowerCase().includes('piano');
+      if (category === 'Opera') return ensemble.toLowerCase().includes('opera');
       if (category === 'Other') return true; // Show all for Other category
       if (category === 'About' || category === 'Contact Us' || category === 'Services' || category === 'Classical Music Is…') {
         // These are likely navigation items, not filter categories
@@ -159,6 +218,9 @@ export default function Home() {
       }
       return false;
     });
+    
+    console.log(`Found ${filteredRecords.length} records for category ${category}`);
+    return filteredRecords;
   };
 
   // Get featured records (for example, first 5 records)
@@ -172,44 +234,12 @@ export default function Home() {
   const getNewReleases = () => {
     // Filter for records with status "Done" first
     const doneRecords = records.filter(record => record.fields.Status === "Done");
-    
+
     return [...doneRecords].sort((a, b) => {
       const dateA = a.fields.ReleaseDate ? new Date(a.fields.ReleaseDate) : new Date(0);
       const dateB = b.fields.ReleaseDate ? new Date(b.fields.ReleaseDate) : new Date(0);
       return dateB.getTime() - dateA.getTime();
     }).slice(0, 5);
-  };
-
-  // Add search function
-  const handleSearch = () => {
-    if (!searchTerm.trim()) {
-      setIsSearching(false);
-      return;
-    }
-
-    setIsSearching(true);
-    const term = searchTerm.toLowerCase();
-
-    const results = records.filter(record => {
-      // First check if status is "Done"
-      if (!record.fields.Status || record.fields.Status !== "Done") {
-        return false;
-      }
-      
-      // If a specific category is selected, filter by that field
-      if (searchCategory !== "all") {
-        const fieldValue = record.fields[searchCategory];
-        return fieldValue && String(fieldValue).toLowerCase().includes(term);
-      }
-
-      // Otherwise search across all fields
-      return Object.values(record.fields).some(value =>
-        value && String(value).toLowerCase().includes(term)
-      );
-    });
-
-    setSearchResults(results);
-    console.log(results);
   };
 
   // Reset search
@@ -398,25 +428,7 @@ export default function Home() {
                         boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
                       }
                     }}
-                    onClick={() => {
-                      if (category === "Home") {
-                        setIsSearching(false);
-                        return;
-                      }
-
-                      // Filter records based on the selected category
-                      const filteredRecords = getRecordsByCategory(category);
-
-                      // Set the search results to the filtered records
-                      setSearchResults(filteredRecords);
-
-                      // Update search term and category for display purposes
-                      setSearchTerm(category);
-                      setSearchCategory("all");
-
-                      // Show the search results
-                      setIsSearching(true);
-                    }}
+                    onClick={() => handleCategoryClick(category)}
                   />
                 </div>
               ))}
