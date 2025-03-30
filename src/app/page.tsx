@@ -152,18 +152,28 @@ export default function Home() {
       if (category === 'Vocal') return ensemble.includes('Vocal');
       if (category === 'Piano') return ensemble.includes('Piano');
       if (category === 'Opera') return ensemble.includes('Opera');
+      if (category === 'Other') return true; // Show all for Other category
+      if (category === 'About' || category === 'Contact Us' || category === 'Services' || category === 'Classical Music Is…') {
+        // These are likely navigation items, not filter categories
+        return false;
+      }
       return false;
     });
   };
 
   // Get featured records (for example, first 5 records)
   const getFeaturedRecords = () => {
-    return records.slice(0, 5);
+    // Filter for records with status "Done" first
+    const doneRecords = records.filter(record => record.fields.Status === "Done");
+    return doneRecords.slice(0, 5);
   };
 
   // Get new releases (for example, latest 5 records)
   const getNewReleases = () => {
-    return [...records].sort((a, b) => {
+    // Filter for records with status "Done" first
+    const doneRecords = records.filter(record => record.fields.Status === "Done");
+    
+    return [...doneRecords].sort((a, b) => {
       const dateA = a.fields.ReleaseDate ? new Date(a.fields.ReleaseDate) : new Date(0);
       const dateB = b.fields.ReleaseDate ? new Date(b.fields.ReleaseDate) : new Date(0);
       return dateB.getTime() - dateA.getTime();
@@ -181,6 +191,11 @@ export default function Home() {
     const term = searchTerm.toLowerCase();
 
     const results = records.filter(record => {
+      // First check if status is "Done"
+      if (!record.fields.Status || record.fields.Status !== "Done") {
+        return false;
+      }
+      
       // If a specific category is selected, filter by that field
       if (searchCategory !== "all") {
         const fieldValue = record.fields[searchCategory];
@@ -194,6 +209,7 @@ export default function Home() {
     });
 
     setSearchResults(results);
+    console.log(results);
   };
 
   // Reset search
@@ -285,19 +301,19 @@ export default function Home() {
                 {/* Group results by ensemble */}
                 {Array.from(new Set(searchResults.map(record => record.fields.Ensemble || 'Other'))).map(ensemble => (
                   <Box key={ensemble} sx={{ mb: 4 }}>
-                    <Typography 
-                      variant="h6" 
-                      component="h4" 
-                      sx={{ 
-                        mb: 2, 
-                        pb: 1, 
+                    <Typography
+                      variant="h6"
+                      component="h4"
+                      sx={{
+                        mb: 2,
+                        pb: 1,
                         borderBottom: '2px solid #3f51b5',
                         display: 'inline-block'
                       }}
                     >
                       {ensemble}
                     </Typography>
-                    
+
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                       {searchResults
                         .filter(record => (record.fields.Ensemble || 'Other') === ensemble)
@@ -311,24 +327,24 @@ export default function Home() {
                                       <img
                                         src={record.fields['Cover Scan'][0].url}
                                         alt={record.fields['Product Name'] || 'Cover image'}
-                                        style={{ 
-                                          position: 'absolute', 
-                                          top: 0, 
-                                          left: 0, 
-                                          width: '100%', 
-                                          height: '100%', 
-                                          objectFit: 'cover' 
+                                        style={{
+                                          position: 'absolute',
+                                          top: 0,
+                                          left: 0,
+                                          width: '100%',
+                                          height: '100%',
+                                          objectFit: 'cover'
                                         }}
                                       />
                                     </div>
                                   ) : (
-                                    <div className="w-full h-full bg-gray-200 flex items-center justify-center" 
-                                         style={{ aspectRatio: '1/1' }}>
+                                    <div className="w-full h-full bg-gray-200 flex items-center justify-center"
+                                      style={{ aspectRatio: '1/1' }}>
                                       <span className="text-gray-500">No cover image</span>
                                     </div>
                                   )}
                                 </div>
-                                
+
                                 <div className="p-4">
                                   <h3 className="font-bold text-lg mb-1 truncate">{record.fields['Product Name'] || 'Untitled'}</h3>
                                   <p className="text-sm text-gray-600 mb-1">
@@ -387,17 +403,17 @@ export default function Home() {
                         setIsSearching(false);
                         return;
                       }
-                      
+
                       // Filter records based on the selected category
                       const filteredRecords = getRecordsByCategory(category);
-                      
+
                       // Set the search results to the filtered records
                       setSearchResults(filteredRecords);
-                      
+
                       // Update search term and category for display purposes
                       setSearchTerm(category);
                       setSearchCategory("all");
-                      
+
                       // Show the search results
                       setIsSearching(true);
                     }}
@@ -429,24 +445,24 @@ export default function Home() {
                                 <img
                                   src={record.fields['Cover Scan'][0].url}
                                   alt={record.fields['Product Name'] || 'Cover image'}
-                                  style={{ 
-                                    position: 'absolute', 
-                                    top: 0, 
-                                    left: 0, 
-                                    width: '100%', 
-                                    height: '100%', 
-                                    objectFit: 'cover' 
+                                  style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'cover'
                                   }}
                                 />
                               </div>
                             ) : (
-                              <div className="w-full h-full bg-gray-200 flex items-center justify-center" 
-                                   style={{ aspectRatio: '1/1' }}>
+                              <div className="w-full h-full bg-gray-200 flex items-center justify-center"
+                                style={{ aspectRatio: '1/1' }}>
                                 <span className="text-gray-500">No cover image</span>
                               </div>
                             )}
                           </div>
-                          
+
                           <div className="p-4">
                             <h3 className="font-bold text-lg mb-1 truncate">{record.fields['Product Name'] || 'Untitled'}</h3>
                             <p className="text-sm text-gray-600 mb-1">
@@ -488,24 +504,24 @@ export default function Home() {
                                 <img
                                   src={record.fields['Cover Scan'][0].url}
                                   alt={record.fields['Product Name'] || 'Cover image'}
-                                  style={{ 
-                                    position: 'absolute', 
-                                    top: 0, 
-                                    left: 0, 
-                                    width: '100%', 
-                                    height: '100%', 
-                                    objectFit: 'cover' 
+                                  style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'cover'
                                   }}
                                 />
                               </div>
                             ) : (
-                              <div className="w-full h-full bg-gray-200 flex items-center justify-center" 
-                                   style={{ aspectRatio: '1/1' }}>
+                              <div className="w-full h-full bg-gray-200 flex items-center justify-center"
+                                style={{ aspectRatio: '1/1' }}>
                                 <span className="text-gray-500">No cover image</span>
                               </div>
                             )}
                           </div>
-                          
+
                           <div className="p-4">
                             <h3 className="font-bold text-lg mb-1 truncate">{record.fields['Product Name'] || 'Untitled'}</h3>
                             <p className="text-sm text-gray-600 mb-1">

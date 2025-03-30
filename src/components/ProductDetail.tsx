@@ -100,8 +100,8 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 {/* Right column - Product details */}
                 <div>
                     <h1 className="text-3xl font-bold mb-2">{fields['Product Name']}</h1>
-                    {fields['Web Ensemble Type 1'] && (
-                        <p className="text-xl mb-4 text-gray-600">{fields['Web Ensemble Type 1']}</p>
+                    {fields['Ensesmble'] && (
+                        <p className="text-xl mb-4 text-gray-600">{fields['Ensesmble']}</p>
                     )}
 
                     <div className="mb-4">
@@ -137,18 +137,20 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                         </div>
                     )}
 
-                    {fields['Duration'] && (() => {
-                        const totalSeconds = parseInt(fields['Duration'], 10);
-                        const hours = Math.floor(totalSeconds / 3600);
-                        const minutes = Math.floor((totalSeconds % 3600) / 60);
-                        const seconds = totalSeconds % 60;
+{fields['Duration'] && (() => {
+    const totalSeconds = parseInt(fields['Duration'], 10);
+    const totalMinutes = Math.floor(totalSeconds / 60);
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
 
-                        return (
-                            <p className="mb-4">
-                                <strong>Duration:</strong> {hours}h {minutes}m {seconds}s
-                            </p>
-                        );
-                    })()}
+    return (
+        <p className="mb-4">
+            <strong>Duration:</strong> {hours > 0 ? `${hours}:` : ""}{minutes.toString().padStart(2, '0')}
+        </p>
+    );
+})()}
+
+
                 </div>
             </div>
 
