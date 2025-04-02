@@ -25,7 +25,7 @@ interface AirtableRecord {
     [key: string]: any;
     'Product Name'?: string;
     Composer?: string;
-    Ensemble?: string;
+    Ensesmble?: string;
     Style?: string;
     Video?: string;
     'Cover Scan'?: Array<{ url: string }>;
@@ -82,22 +82,45 @@ export default function Home() {
     setIsSearching(true);
     const searchText = term.toLowerCase();
 
+    // Filter records to only include those with Status "Done"
     const results = records.filter(record => {
       // First check if status is "Done"
       if (!record.fields.Status || record.fields.Status !== "Done") {
         return false;
       }
 
-      // If a specific category is selected, filter by that field
+      // If searching in a specific category
       if (searchCategory !== "all") {
         const fieldValue = record.fields[searchCategory];
+        
+        // For Composer and Ensesmble, do exact matching (case-insensitive)
+        if (searchCategory === "Composer" || searchCategory === "Ensesmble") {
+          return fieldValue && String(fieldValue).toLowerCase() === searchText;
+        }
+        
+        // For other fields, use includes matching
         return fieldValue && String(fieldValue).toLowerCase().includes(searchText);
       }
 
-      // Otherwise search across all fields
-      return Object.values(record.fields).some(value =>
-        value && String(value).toLowerCase().includes(searchText)
-      );
+      // When searching across all fields
+      // Exact match for Composer and Ensesmble
+      const composerMatch = record.fields.Composer && 
+        String(record.fields.Composer).toLowerCase() === searchText;
+      const EnsesmbleMatch = record.fields.Ensesmble && 
+        String(record.fields.Ensesmble).toLowerCase() === searchText;
+      
+      // If there's an exact match in either Composer or Ensesmble, return true
+      if (composerMatch || EnsesmbleMatch) {
+        return true;
+      }
+
+      // Otherwise, search other fields with includes
+      return Object.entries(record.fields).some(([key, value]) => {
+        if (key !== "Composer" && key !== "Ensesmble") {
+          return value && String(value).toLowerCase().includes(searchText);
+        }
+        return false;
+      });
     });
 
     setSearchResults(results);
@@ -182,36 +205,36 @@ export default function Home() {
     }
   }, [loading, records]);
 
-  // Filter records by ensemble type
+  // Filter records by Ensesmble type
   const getRecordsByCategory = (category: string) => {
     // First filter for records with status "Done"
     const doneRecords = records.filter(record => record.fields.Status === "Done");
     console.log(`Total records with Status "Done": ${doneRecords.length}`);
     
     if (category === 'Holiday') {
-      // Check both Style and Ensemble fields for Holiday
+      // Check both Style and Ensesmble fields for Holiday
       const holidayRecords = doneRecords.filter(record => 
         (record.fields.Style && String(record.fields.Style).toLowerCase().includes('holiday')) ||
-        (record.fields.Ensemble && String(record.fields.Ensemble).toLowerCase().includes('holiday'))
+        (record.fields.Ensesmble && String(record.fields.Ensesmble).toLowerCase().includes('holiday'))
       );
       console.log(`Found ${holidayRecords.length} Holiday records`);
       return holidayRecords;
     }
 
-    // For other categories, match with Ensemble field - case insensitive
+    // For other categories, match with Ensesmble field - case insensitive
     const filteredRecords = doneRecords.filter(record => {
-      const ensemble = record.fields.Ensemble ? String(record.fields.Ensemble).toLowerCase() : '';
+      const Ensesmble = record.fields.Ensesmble ? String(record.fields.Ensesmble).toLowerCase() : '';
       
-      if (category === 'Concert Band') return ensemble.toLowerCase().includes('concert band');
-      if (category === 'Full Orchestra') return ensemble.toLowerCase().includes('full orchestra');
-      if (category === 'String Orchestra') return ensemble.toLowerCase().includes('string orchestra');
-      if (category === 'Strings') return ensemble.toLowerCase().includes('string');
-      if (category === 'Horn Music') return ensemble.toLowerCase().includes('horn');
-      if (category === 'Brass Music') return ensemble.toLowerCase().includes('brass');
-      if (category === 'Woodwinds') return ensemble.toLowerCase().includes('woodwind');
-      if (category === 'Vocal') return ensemble.toLowerCase().includes('vocal');
-      if (category === 'Piano') return ensemble.toLowerCase().includes('piano');
-      if (category === 'Opera') return ensemble.toLowerCase().includes('opera');
+      if (category === 'Concert Band') return Ensesmble.toLowerCase().includes('concert band');
+      if (category === 'Full Orchestra') return Ensesmble.toLowerCase().includes('full orchestra');
+      if (category === 'String Orchestra') return Ensesmble.toLowerCase().includes('string orchestra');
+      if (category === 'Strings') return Ensesmble.toLowerCase().includes('string');
+      if (category === 'Horn Music') return Ensesmble.toLowerCase().includes('horn');
+      if (category === 'Brass Music') return Ensesmble.toLowerCase().includes('brass');
+      if (category === 'Woodwinds') return Ensesmble.toLowerCase().includes('woodwind');
+      if (category === 'Vocal') return Ensesmble.toLowerCase().includes('vocal');
+      if (category === 'Piano') return Ensesmble.toLowerCase().includes('piano');
+      if (category === 'Opera') return Ensesmble.toLowerCase().includes('opera');
       if (category === 'Other') return true; // Show all for Other category
       if (category === 'About' || category === 'Contact Us' || category === 'Services' || category === 'Classical Music Is…') {
         // These are likely navigation items, not filter categories
@@ -290,7 +313,7 @@ export default function Home() {
                   <MenuItem value="all">All Fields</MenuItem>
                   <MenuItem value="Title">Title</MenuItem>
                   <MenuItem value="Composer">Composer</MenuItem>
-                  <MenuItem value="Ensemble">Ensemble</MenuItem>
+                  <MenuItem value="Ensesmble">Ensesmble</MenuItem>
                   <MenuItem value="Style">Style</MenuItem>
                 </Select>
               </FormControl>
@@ -329,9 +352,9 @@ export default function Home() {
               <Typography>No results found for "{searchTerm}"</Typography>
             ) : (
               <>
-                {/* Group results by ensemble */}
-                {Array.from(new Set(searchResults.map(record => record.fields.Ensemble || 'Other'))).map(ensemble => (
-                  <Box key={ensemble} sx={{ mb: 4 }}>
+                {/* Group results by Ensesmble */}
+                {Array.from(new Set(searchResults.map(record => record.fields.Ensesmble || 'Other'))).map(Ensesmble => (
+                  <Box key={Ensesmble} sx={{ mb: 4 }}>
                     <Typography
                       variant="h6"
                       component="h4"
@@ -342,12 +365,12 @@ export default function Home() {
                         display: 'inline-block'
                       }}
                     >
-                      {ensemble}
+                      {Ensesmble}
                     </Typography>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                       {searchResults
-                        .filter(record => (record.fields.Ensemble || 'Other') === ensemble)
+                        .filter(record => (record.fields.Ensesmble || 'Other') === Ensesmble)
                         .map((record) => (
                           <Link href={`/product/${record.id}`} key={record.id}>
                             <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full">
@@ -382,7 +405,7 @@ export default function Home() {
                                     <span className="font-medium">Composer:</span> {record.fields['Composer'] || 'Unknown'}
                                   </p>
                                   <p className="text-sm text-gray-600 mb-1">
-                                    <span className="font-medium">Ensemble:</span> {record.fields['Ensemble'] || 'N/A'}
+                                    <span className="font-medium">Ensesmble:</span> {record.fields['Ensesmble'] || 'N/A'}
                                   </p>
                                   <p className="text-sm text-gray-600 mb-1">
                                     <span className="font-medium">Grade Level:</span> {record.fields['Grade Level'] || 'N/A'}
@@ -482,7 +505,7 @@ export default function Home() {
                               <span className="font-medium">Composer:</span> {record.fields['Composer'] || 'Unknown'}
                             </p>
                             <p className="text-sm text-gray-600 mb-1">
-                              <span className="font-medium">Ensemble:</span> {record.fields['Ensemble'] || 'N/A'}
+                              <span className="font-medium">Ensesmble:</span> {record.fields['Ensesmble'] || 'N/A'}
                             </p>
                             <p className="text-sm text-gray-600 mb-1">
                               <span className="font-medium">Grade Level:</span> {record.fields['Grade Level'] || 'N/A'}
@@ -541,7 +564,7 @@ export default function Home() {
                               <span className="font-medium">Composer:</span> {record.fields['Composer'] || 'Unknown'}
                             </p>
                             <p className="text-sm text-gray-600 mb-1">
-                              <span className="font-medium">Ensemble:</span> {record.fields['Ensemble'] || 'N/A'}
+                              <span className="font-medium">Ensesmble:</span> {record.fields['Ensesmble'] || 'N/A'}
                             </p>
                             <p className="text-sm text-gray-600 mb-1">
                               <span className="font-medium">Grade Level:</span> {record.fields['Grade Level'] || 'N/A'}
