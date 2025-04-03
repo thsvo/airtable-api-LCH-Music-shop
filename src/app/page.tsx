@@ -91,35 +91,20 @@ export default function Home() {
 
       // If searching in a specific category
       if (searchCategory !== "all") {
-        const fieldValue = record.fields[searchCategory];
+        // Map field names to their Airtable counterparts
+        const fieldMapping: { [key: string]: string } = {
+          "Title": "Product Name",
+          "Style": "Style 1"
+        };
         
-        // For Composer and Ensesmble, do exact matching (case-insensitive)
-        if (searchCategory === "Composer" || searchCategory === "Ensesmble") {
-          return fieldValue && String(fieldValue).toLowerCase() === searchText;
-        }
-        
-        // For other fields, use includes matching
+        const fieldName = fieldMapping[searchCategory] || searchCategory;
+        const fieldValue = record.fields[fieldName];
         return fieldValue && String(fieldValue).toLowerCase().includes(searchText);
       }
 
       // When searching across all fields
-      // Exact match for Composer and Ensesmble
-      const composerMatch = record.fields.Composer && 
-        String(record.fields.Composer).toLowerCase() === searchText;
-      const EnsesmbleMatch = record.fields.Ensesmble && 
-        String(record.fields.Ensesmble).toLowerCase() === searchText;
-      
-      // If there's an exact match in either Composer or Ensesmble, return true
-      if (composerMatch || EnsesmbleMatch) {
-        return true;
-      }
-
-      // Otherwise, search other fields with includes
       return Object.entries(record.fields).some(([key, value]) => {
-        if (key !== "Composer" && key !== "Ensesmble") {
-          return value && String(value).toLowerCase().includes(searchText);
-        }
-        return false;
+        return value && String(value).toLowerCase().includes(searchText);
       });
     });
 
