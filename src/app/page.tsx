@@ -362,7 +362,7 @@ export default function Home() {
                               <CardContent className="p-0">
                                 <div className="aspect-square relative">
                                   {record.fields['Cover Scan'] && record.fields['Cover Scan'][0] ? (
-                                    <div style={{ position: 'relative', width: '100%', height: '0', paddingBottom: '100%' }}>
+                                    <div style={{ position: 'relative', width: '100%', height: '0', paddingBottom: '140%' }}>
                                       <img
                                         src={record.fields['Cover Scan'][0].url}
                                         alt={record.fields['Product Name'] || 'Cover image'}
@@ -462,7 +462,7 @@ export default function Home() {
                         <CardContent className="p-0">
                           <div className="aspect-square relative">
                             {record.fields['Cover Scan'] && record.fields['Cover Scan'][0] ? (
-                              <div style={{ position: 'relative', width: '100%', height: '0', paddingBottom: '100%' }}>
+                              <div style={{ position: 'relative', width: '100%', height: '0', paddingBottom: '120%' }}>
                                 <img
                                   src={record.fields['Cover Scan'][0].url}
                                   alt={record.fields['Product Name'] || 'Cover image'}
@@ -521,7 +521,7 @@ export default function Home() {
                         <CardContent className="p-0">
                           <div className="aspect-square relative">
                             {record.fields['Cover Scan'] && record.fields['Cover Scan'][0] ? (
-                              <div style={{ position: 'relative', width: '100%', height: '0', paddingBottom: '100%' }}>
+                              <div style={{ position: 'relative', width: '100%', height: '0', paddingBottom: '120%' }}>
                                 <img
                                   src={record.fields['Cover Scan'][0].url}
                                   alt={record.fields['Product Name'] || 'Cover image'}
