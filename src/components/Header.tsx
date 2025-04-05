@@ -149,6 +149,13 @@ export default function Header({ records }: HeaderProps) {
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link href="/classical-music-is" legacyBehavior passHref>
+                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    Classical Music Is
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
 
               </NavigationMenuList>
             </NavigationMenu>
