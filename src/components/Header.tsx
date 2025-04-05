@@ -44,7 +44,7 @@ export default function Header({ records }: HeaderProps) {
       <div className="container mx-auto p-4">
         <div className="flex flex-col md:flex-row  items-center">
           <div className="flex w-full md:w-auto  items-center mb-4 md:mb-0">
-            <Link href="/"  rel="noopener noreferrer">
+            <Link href="/" rel="noopener noreferrer">
 
               <Image
                 src="https://cdn.codeopx.com/LCHmusic.png" // Replace with your image path
@@ -90,6 +90,9 @@ export default function Header({ records }: HeaderProps) {
                     <Link href="/contact" onClick={() => setOpen(false)}>
                       <div className="px-4 py-2 hover:bg-accent rounded-md">Contact</div>
                     </Link>
+                    <Link href="/services" onClick={() => setOpen(false)}>
+                      <div className="px-4 py-2 hover:bg-accent rounded-md">Services</div>
+                    </Link>
                   </div>
                 </SheetContent>
               </Sheet>
@@ -132,7 +135,13 @@ export default function Header({ records }: HeaderProps) {
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
-
+                <NavigationMenuItem>
+                  <Link href="/services" legacyBehavior passHref>
+                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                      Services
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link href="/contact" legacyBehavior passHref>
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -140,6 +149,7 @@ export default function Header({ records }: HeaderProps) {
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
+
               </NavigationMenuList>
             </NavigationMenu>
           </div>
