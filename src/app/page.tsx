@@ -49,7 +49,7 @@ export default function Home() {
 
   // Categories list
   const categories = [
-     'Concert Band', 'Full Orchestra', 'String Orchestra',
+    'Concert Band', 'Full Orchestra', 'String Orchestra',
     'Strings', 'Horn Music', 'Brass Music', 'Woodwinds',
     'Vocal', 'Piano', 'Holiday', 'Other', 'About',
     'Contact Us', 'Services', 'Opera'
@@ -73,7 +73,7 @@ export default function Home() {
   // Add search function
   const handleSearch = (categoryOverride?: string) => {
     const term = categoryOverride || searchTerm.trim();
-    
+
     if (!term) {
       setIsSearching(false);
       return;
@@ -96,7 +96,7 @@ export default function Home() {
           "Title": "Product Name",
           "Style": "Style 1"
         };
-        
+
         const fieldName = fieldMapping[searchCategory] || searchCategory;
         const fieldValue = record.fields[fieldName];
         return fieldValue && String(fieldValue).toLowerCase().includes(searchText);
@@ -195,10 +195,10 @@ export default function Home() {
     // First filter for records with status "Done"
     const doneRecords = records.filter(record => record.fields.Status === "Done");
     console.log(`Total records with Status "Done": ${doneRecords.length}`);
-    
+
     if (category === 'Holiday') {
       // Check both Style and Ensesmble fields for Holiday
-      const holidayRecords = doneRecords.filter(record => 
+      const holidayRecords = doneRecords.filter(record =>
         (record.fields.Style && String(record.fields.Style).toLowerCase().includes('holiday')) ||
         (record.fields.Ensesmble && String(record.fields.Ensesmble).toLowerCase().includes('holiday'))
       );
@@ -209,7 +209,7 @@ export default function Home() {
     // For other categories, match with Ensesmble field - case insensitive
     const filteredRecords = doneRecords.filter(record => {
       const Ensesmble = record.fields.Ensesmble ? String(record.fields.Ensesmble).toLowerCase() : '';
-      
+
       if (category === 'Concert Band') return Ensesmble.toLowerCase().includes('concert band');
       if (category === 'Full Orchestra') return Ensesmble.toLowerCase().includes('full orchestra');
       if (category === 'String Orchestra') return Ensesmble.toLowerCase().includes('string orchestra');
@@ -227,7 +227,7 @@ export default function Home() {
       }
       return false;
     });
-    
+
     console.log(`Found ${filteredRecords.length} records for category ${category}`);
     return filteredRecords;
   };
@@ -362,17 +362,18 @@ export default function Home() {
                               <CardContent className="p-0">
                                 <div className="aspect-square relative">
                                   {record.fields['Cover Scan'] && record.fields['Cover Scan'][0] ? (
-                                    <div style={{ position: 'relative', width: '100%', height: '0', paddingBottom: '140%' }}>
+                                    <div style={{ position: 'relative', width: '100%', height: '0', paddingBottom: '100%', backgroundColor: 'white' }}>
                                       <img
                                         src={record.fields['Cover Scan'][0].url}
                                         alt={record.fields['Product Name'] || 'Cover image'}
                                         style={{
                                           position: 'absolute',
-                                          top: 0,
-                                          left: 0,
-                                          width: '100%',
-                                          height: '100%',
-                                          objectFit: 'cover'
+                                         
+                                          width: '95%',
+                                          height: '95%',
+                                          objectFit: 'contain',
+                                          backgroundColor: 'white',
+                                          borderRadius: '4px'
                                         }}
                                       />
                                     </div>
@@ -450,29 +451,30 @@ export default function Home() {
           <>
             {/* Featured Section */}
             <div ref={featuredRef} className="mb-12">
-              <Typography variant="h4" component="h2" className="mb-6 featured-title">
+              <Typography variant="h4" component="h2" className="mb-6 featured-title text-center" sx={{ backgroundColor: 'rgba(255, 255, 255, 0.7)', padding: '10px', borderRadius: '8px' }}>
                 Featured Music
               </Typography>
 
               {!loading && !error && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                   {getFeaturedRecords().map((record) => (
                     <Link href={`/product/${record.id}`} key={record.id}>
                       <Card className="featured-item overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full">
                         <CardContent className="p-0">
                           <div className="aspect-square relative">
                             {record.fields['Cover Scan'] && record.fields['Cover Scan'][0] ? (
-                              <div style={{ position: 'relative', width: '100%', height: '0', paddingBottom: '120%' }}>
+                              <div style={{ position: 'relative', width: '100%', height: '0', paddingBottom: '100%', backgroundColor: 'white' }}>
                                 <img
                                   src={record.fields['Cover Scan'][0].url}
                                   alt={record.fields['Product Name'] || 'Cover image'}
                                   style={{
                                     position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'cover'
+                                   
+                                    width: '95%',
+                                    height: '95%',
+                                    objectFit: 'contain',
+                                    backgroundColor: 'white',
+                                    borderRadius: '4px'
                                   }}
                                 />
                               </div>
@@ -509,29 +511,30 @@ export default function Home() {
 
             {/* New Releases Section */}
             <div ref={newReleasesRef} className="mb-12">
-              <Typography variant="h4" component="h2" className="mb-6 new-release-title">
+              <Typography variant="h4" component="h2" className="mb-6 new-release-title text-center" sx={{ backgroundColor: 'rgba(255, 255, 255, 0.7)', padding: '10px', borderRadius: '8px' }}>
                 New Releases
               </Typography>
 
               {!loading && !error && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                   {getNewReleases().map((record) => (
                     <Link href={`/product/${record.id}`} key={record.id}>
                       <Card className="new-release-item overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full">
                         <CardContent className="p-0">
                           <div className="aspect-square relative">
                             {record.fields['Cover Scan'] && record.fields['Cover Scan'][0] ? (
-                              <div style={{ position: 'relative', width: '100%', height: '0', paddingBottom: '120%' }}>
+                              <div style={{ position: 'relative', width: '100%', height: '0', paddingBottom: '100%', backgroundColor: 'white' }}>
                                 <img
                                   src={record.fields['Cover Scan'][0].url}
                                   alt={record.fields['Product Name'] || 'Cover image'}
                                   style={{
                                     position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'cover'
+                                    
+                                    width: '95%',
+                                    height: '95%',
+                                    objectFit: 'contain',
+                                    backgroundColor: 'white',
+                                    borderRadius: '4px'
                                   }}
                                 />
                               </div>
