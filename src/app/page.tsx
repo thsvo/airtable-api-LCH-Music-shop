@@ -368,7 +368,6 @@ export default function Home() {
                                         alt={record.fields['Product Name'] || 'Cover image'}
                                         style={{
                                           position: 'absolute',
-                                         
                                           width: '95%',
                                           height: '95%',
                                           objectFit: 'contain',
@@ -469,7 +468,7 @@ export default function Home() {
                                   alt={record.fields['Product Name'] || 'Cover image'}
                                   style={{
                                     position: 'absolute',
-                                   
+
                                     width: '95%',
                                     height: '95%',
                                     objectFit: 'contain',
@@ -529,7 +528,7 @@ export default function Home() {
                                   alt={record.fields['Product Name'] || 'Cover image'}
                                   style={{
                                     position: 'absolute',
-                                    
+
                                     width: '95%',
                                     height: '95%',
                                     objectFit: 'contain',
