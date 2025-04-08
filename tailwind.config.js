@@ -1,4 +1,10 @@
 module.exports = {
-    // ...other config
-    plugins: [require("daisyui")],
-  }
+  theme: {
+    extend: {
+      fontFamily: {
+        lexend: ['Lexend', 'sans-serif'],
+      },
+    },
+  },
+},
+  plugins;[require("daisyui")]

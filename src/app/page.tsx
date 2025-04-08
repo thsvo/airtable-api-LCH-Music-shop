@@ -1,7 +1,4 @@
-
-
-'use client';
-
+'use client'
 import { useState, useEffect, useRef } from 'react';
 import Header from '@/components/Header';
 import { Box, Card, CardContent, CardMedia, Typography, Grid, Container, Chip, TextField, InputAdornment, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
@@ -17,6 +14,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import router from 'next/router';
 import { Button } from '@/components/ui/button';
+import CardSection from '@/components/card';
 
 // Define types for our records
 interface AirtableRecord {
@@ -259,7 +257,7 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-[rgba(104, 121, 159, 1)] min-h-screen">
       <Header records={records} />
 
       {/* Search Section */}
@@ -417,7 +415,7 @@ export default function Home() {
             <Typography variant="h4" component="h2" className="mb-6 text-center font-bold">
               Music Categories
             </Typography>
-<br></br>
+            <br></br>
             <div className="flex flex-wrap -mx-2 justify-center">
               {categories.map((category, index) => (
                 <div key={index} className="px-2 mb-4 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 category-item">
@@ -600,6 +598,11 @@ export default function Home() {
           </Box>
         )}
       </Container>
+
+      <div>
+<CardSection></CardSection>
+      </div>
+
     </div>
   );
 }
