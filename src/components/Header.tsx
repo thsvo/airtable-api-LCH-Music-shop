@@ -40,21 +40,18 @@ export default function Header({ records }: HeaderProps) {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="border-b">
+    <header className="border-y border-[#c0af73]">
       <div className="container mx-auto p-4">
-        <div className="flex flex-col md:flex-row  items-center">
-          <div className="flex w-full md:w-auto  items-center mb-4 md:mb-0">
+        <div className="flex flex-col md:flex-row items-center">
+          <div className="flex w-full md:w-auto items-center mb-4 md:mb-0">
             <Link href="/" rel="noopener noreferrer">
-
               <Image
-                src="https://cdn.codeopx.com/LCHmusic.png" // Replace with your image path
+                src="https://cdn.codeopx.com/LCHmusic.png"
                 alt="Example Image"
                 width={100}
                 height={100}
               />
             </Link>
-
-
 
             {/* Mobile Menu Button */}
             <div className="md:hidden">
@@ -100,9 +97,9 @@ export default function Header({ records }: HeaderProps) {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <NavigationMenu className="justify-center pl-[450px]">
-              <NavigationMenuList>
+          <div className="hidden md:flex flex-1 justify-center">
+            <NavigationMenu>
+              <NavigationMenuList className="flex justify-between w-full">
                 <NavigationMenuItem>
                   <Link href="/" legacyBehavior passHref>
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>

@@ -120,3 +120,21 @@
     @apply bg-background text-foreground;
   }
 }
+
+.featured-swiper,
+.new-releases-swiper {
+  padding: 20px 0;
+}
+
+.swiper-slide {
+  height: auto;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #000;
+}
+
+.swiper-pagination-bullet-active {
+  background: #000;
+}

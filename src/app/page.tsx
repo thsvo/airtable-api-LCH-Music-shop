@@ -265,7 +265,7 @@ export default function Home() {
       {/* Search Section */}
       <Container maxWidth="xl" sx={{ py: 4 }}>
         <Box sx={{ mb: 6, p: 3, backgroundColor: 'white', borderRadius: 2, boxShadow: 1 }}>
-          <Typography variant="h4" component="h2" className="mb-4 text-center font-bold">
+          <Typography variant="h4" component="h2" className="mb-4 text-center font-bold ">
             Search Music
           </Typography>
 
@@ -417,7 +417,7 @@ export default function Home() {
             <Typography variant="h4" component="h2" className="mb-6 text-center font-bold">
               Music Categories
             </Typography>
-
+<br></br>
             <div className="flex flex-wrap -mx-2 justify-center">
               {categories.map((category, index) => (
                 <div key={index} className="px-2 mb-4 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 category-item">

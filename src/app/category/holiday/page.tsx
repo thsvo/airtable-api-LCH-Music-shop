@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Card, CardContent } from "@/components/ui/card";
 import Header from '@/components/Header';
+import Link from 'next/link';
 
 export default function HolidayPage() {
   const [records, setRecords] = useState<any[]>([]);
@@ -32,13 +33,13 @@ export default function HolidayPage() {
         }
 
         const data: any = await response.json();
-        
+
         // Filter records for Holiday (Style 1) and Status = "Done"
         const filteredRecords = data.records.filter((record: any) => {
           const fields = record.fields;
           return fields['Style 1'] === 'Holiday' && fields['Status'] === 'Done';
         });
-        
+
         setRecords(filteredRecords);
         setLoading(false);
       } catch (err: any) {
@@ -53,55 +54,65 @@ export default function HolidayPage() {
   return (
     <div>
       <Header records={records} />
-      
+
       <div className="container mx-auto p-4">
         <h1 className="text-3xl font-bold mb-6">Holiday</h1>
-    
+
         {loading && <p className="text-center py-8">Loading holiday music...</p>}
-        
+
         {error && <p className="text-red-500 text-center py-8">Error: {error}</p>}
-        
+
         {!loading && !error && records.length === 0 && (
           <p className="text-center py-8">No holiday music found with status "Done".</p>
         )}
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {records.map((record: any) => (
-            <Card key={record.id} className="overflow-hidden">
-              <CardContent className="p-0">
-                <div className="aspect-square relative">
-                  {record.fields['Cover Scan'] && record.fields['Cover Scan'][0] && (
-                    <Image
-                      src={record.fields['Cover Scan'][0].url || ''}
-                      alt={record.fields['Product Name'] || 'Cover image'}
-                      fill
-                      className="object-cover"
-                    />
-                  )}
-                  {(!record.fields['Cover Scan'] || !record.fields['Cover Scan'][0]) && (
-                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                      <span className="text-gray-500">No cover image</span>
-                    </div>
-                  )}
-                </div>
-                
-                <div className="p-4">
-                  <h3 className="font-bold text-lg mb-1">{record.fields['Product Name'] || 'Untitled'}</h3>
-                  <p className="text-sm text-gray-600 mb-1">
-                    <span className="font-medium">Composer:</span> {record.fields['Composer'] || 'Unknown'}
-                  </p>
-                  <p className="text-sm text-gray-600 mb-1">
-                    <span className="font-medium">Ensemble:</span> {record.fields['Ensemble'] || 'Holiday'}
-                  </p>
-                  <p className="text-sm text-gray-600 mb-1">
-                    <span className="font-medium">Grade Level:</span> {record.fields['Grade Level'] || 'N/A'}
-                  </p>
-                  <p className="text-sm font-bold text-green-600">
-                    ${record.fields['Price'] || 'Price not available'}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+            <Link href={`/product/${record.id}`} key={record.id}>
+              <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full">
+                <CardContent className="p-0">
+                  <div className="aspect-square relative">
+                    {record.fields['Cover Scan'] && record.fields['Cover Scan'][0] ? (
+                      <div style={{ position: 'relative', width: '100%', height: '0', paddingBottom: '100%', backgroundColor: 'white' }}>
+                        <img
+                          src={record.fields['Cover Scan'][0].url}
+                          alt={record.fields['Product Name'] || 'Cover image'}
+                          style={{
+                            position: 'absolute',
+                            width: '95%',
+                            height: '95%',
+                            objectFit: 'contain',
+                            backgroundColor: 'white',
+                            borderRadius: '4px'
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-full h-full bg-gray-200 flex items-center justify-center"
+                        style={{ aspectRatio: '1/1' }}>
+                        <span className="text-gray-500">No cover image</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="p-4">
+                    <h3 className="font-bold text-lg mb-1 truncate">{record.fields['Product Name'] || 'Untitled'}</h3>
+                    <p className="text-sm text-gray-600 mb-1">
+                      <span className="font-medium">Composer:</span> {record.fields['Composer'] || 'Unknown'}
+                    </p>
+                    <p className="text-sm text-gray-600 mb-1">
+                      <span className="font-medium">Ensesmble:</span> {record.fields['Ensesmble'] || 'N/A'}
+                    </p>
+                    <p className="text-sm text-gray-600 mb-1">
+                      <span className="font-medium">Grade Level:</span> {record.fields['Grade Level'] || 'N/A'}
+                    </p>
+                    <p className="text-sm font-bold text-green-600">
+                      ${record.fields['Price'] || 'Price not available'}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         </div>
       </div>
