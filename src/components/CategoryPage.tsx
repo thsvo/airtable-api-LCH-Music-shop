@@ -65,7 +65,7 @@ export default function CategoryPage({ categoryName }: CategoryPageProps) {
           <p className="text-center py-8">No {categoryName.toLowerCase()} music found with status "Done".</p>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {records.map((record) => (
             <Link href={`/product/${record.id}`} key={record.id}>
               <Card className="featured-item overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full">
