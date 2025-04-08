@@ -43,7 +43,7 @@ export default function Header({ records }: HeaderProps) {
     <header className="border-y border-[#c0af73]">
       <div className="container mx-auto p-4">
         <div className="flex flex-col md:flex-row items-center">
-          <div className="flex w-full md:w-auto items-center mb-4 md:mb-0">
+          <div className="flex w-full md:w-auto items-center mb-4 md:mb-0 justify-between">
             <Link href="/" rel="noopener noreferrer">
               <Image
                 src="https://cdn.codeopx.com/LCHmusic.png"
