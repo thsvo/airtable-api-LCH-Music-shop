@@ -72,26 +72,18 @@ export default function CategoryPage({ categoryName }: CategoryPageProps) {
                 <CardContent className="p-0">
                   <div className="aspect-square relative">
                     {record.fields['Cover Scan'] && record.fields['Cover Scan'][0] ? (
-                      <div style={{ position: 'relative', width: '100%', height: '0', paddingBottom: '100%', backgroundColor: 'white' }}>
-                        <img
-                          src={record.fields['Cover Scan'][0].url}
-                          alt={record.fields['Product Name'] || 'Cover image'}
-                          style={{
-                            position: 'absolute',
-                            width: '95%',
-                            height: '95%',
-                            objectFit: 'contain',
-                            backgroundColor: 'white',
-                            borderRadius: '4px'
-                          }}
-                        />
-                      </div>
-                    ) : (
-                      <div className="w-full h-full bg-gray-200 flex items-center justify-center"
-                        style={{ aspectRatio: '1/1' }}>
-                        <span className="text-gray-500">No cover image</span>
-                      </div>
-                    )}
+                                    <Image
+                                      src={record.fields['Cover Scan'][0].url}
+                                      alt={record.fields['Product Name'] || 'Cover image'}
+                                      width={180}
+                                      height={180}
+                                      className="absolute inset-0 m-auto w-[90%] h-[90%] object-contain"
+                                    />
+                                  ) : (
+                                    <div className="flex items-center justify-center h-full text-gray-500">
+                                      No image
+                                    </div>
+                                  )}
                   </div>
 
                   <div className="p-4">

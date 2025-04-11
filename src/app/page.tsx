@@ -384,9 +384,11 @@ export default function Home() {
                               <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 min-w-[200px] w-[200px]">
                                 <div className="aspect-square relative bg-white">
                                   {record.fields['Cover Scan'] && record.fields['Cover Scan'][0] ? (
-                                    <img
+                                    <Image
                                       src={record.fields['Cover Scan'][0].url}
                                       alt={record.fields['Product Name'] || 'Cover image'}
+                                      width={180}
+                                      height={180}
                                       className="absolute inset-0 m-auto w-[90%] h-[90%] object-contain"
                                     />
                                   ) : (

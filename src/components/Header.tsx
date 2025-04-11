@@ -44,14 +44,14 @@ export default function Header({ records }: HeaderProps) {
       <div className="container mx-auto p-4">
         <div className="flex flex-col md:flex-row items-center">
           <div className="flex w-full md:w-auto items-center mb-4 md:mb-0 justify-between">
-            <a href="/" onClick={() => window.location.href = '/'}>
+            <Link href="/" onClick={() => window.location.href = '/'}>
               <Image
                 src="https://cdn.codeopx.com/LCHmusic.png"
                 alt="Example Image"
                 width={100}
                 height={100}
               />
-            </a>
+            </Link>
 
             {/* Mobile Menu Button */}
             <div className="md:hidden">
