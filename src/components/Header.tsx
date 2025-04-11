@@ -44,14 +44,14 @@ export default function Header({ records }: HeaderProps) {
       <div className="container mx-auto p-4">
         <div className="flex flex-col md:flex-row items-center">
           <div className="flex w-full md:w-auto items-center mb-4 md:mb-0 justify-between">
-            <Link href="/" rel="noopener noreferrer">
+            <a href="/" onClick={() => window.location.href = '/'}>
               <Image
                 src="https://cdn.codeopx.com/LCHmusic.png"
                 alt="Example Image"
                 width={100}
                 height={100}
               />
-            </Link>
+            </a>
 
             {/* Mobile Menu Button */}
             <div className="md:hidden">
@@ -149,7 +149,7 @@ export default function Header({ records }: HeaderProps) {
                 <NavigationMenuItem>
                   <Link href="/classical-music-is" legacyBehavior passHref>
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    Classical Music Is
+                      Classical Music Is
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>

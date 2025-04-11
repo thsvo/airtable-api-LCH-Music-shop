@@ -50,7 +50,7 @@ export default function Home() {
     'Concert Band', 'Full Orchestra', 'String Orchestra',
     'Strings', 'Horn Music', 'Brass Music', 'Woodwinds',
     'Vocal', 'Piano', 'Holiday', 'Other', 'About',
-    'Contact Us', 'Services', 'Opera'
+    'Services', 'Opera'
   ];
 
   // Add function to handle category selection
@@ -262,14 +262,15 @@ export default function Home() {
 
       {/* Search Section */}
       <Container maxWidth="xl" sx={{ py: 4 }}>
-        <Box sx={{ mb: 6, p: 3, backgroundColor: 'white', borderRadius: 2, boxShadow: 1 }}>
-          <Typography variant="h4" component="h2" className="mb-4 text-center font-bold ">
+        <Box sx={{ mb: 6, p: 2, backgroundColor: '#F5F5F0', borderRadius: 2, boxShadow: 1 }}>
+          <Typography variant="h5" component="h2" className="mb-3 text-center font-bold text-[#2c2c2c]">
             Search Music
           </Typography>
 
-          <div className="flex flex-wrap -mx-2 pt-3">
-            <div className="w-full md:w-1/2 px-2 mb-4 md:mb-0">
+          <div className="flex flex-wrap -mx-2 pt-2">
+            <div className="w-full md:w-1/2 px-2 mb-3 md:mb-0">
               <TextField
+                size="small"
                 fullWidth
                 label="Search"
                 variant="outlined"
@@ -283,15 +284,39 @@ export default function Home() {
                     </InputAdornment>
                   ),
                 }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                      borderColor: '#A89F91',
+                    },
+                    '&:hover fieldset': {
+                      borderColor: '#355E3B',
+                    },
+                    '&.Mui-focused fieldset': {
+                      borderColor: '#355E3B',
+                    },
+                  },
+                }}
               />
             </div>
-            <div className="w-full md:w-1/4 px-2 mb-4 md:mb-0">
-              <FormControl fullWidth>
+            <div className="w-full md:w-1/4 px-2 mb-3 md:mb-0">
+              <FormControl fullWidth size="small">
                 <InputLabel>Search In</InputLabel>
                 <Select
                   value={searchCategory}
                   label="Search In"
                   onChange={(e) => setSearchCategory(e.target.value as string)}
+                  sx={{
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      borderColor: '#A89F91',
+                    },
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                      borderColor: '#355E3B',
+                    },
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      borderColor: '#355E3B',
+                    },
+                  }}
                 >
                   <MenuItem value="all">All Fields</MenuItem>
                   <MenuItem value="Title">Title</MenuItem>
@@ -301,11 +326,10 @@ export default function Home() {
                 </Select>
               </FormControl>
             </div>
-            <div className="w-1/2 md:w-1/8 px-2 mb-4 md:mb-0">
+            <div className="w-1/2 md:w-1/8 px-2 mb-3 md:mb-0">
               <Button
                 variant="default"
-                color="primary"
-                className="w-40 h-13"
+                className="w-full h-10 bg-[#355E3B] hover:bg-[#2c4e31] text-white"
                 onClick={() => handleSearch()}
               >
                 Search
@@ -314,8 +338,7 @@ export default function Home() {
             <div className="w-1/2 md:w-1/8 px-2">
               <Button
                 variant="outline"
-                color="secondary"
-                className="w-40 h-13"
+                className="w-full h-10 border-[#A89F91] text-[#2c2c2c] hover:bg-[#F5F5F0] hover:text-[#800000]"
                 onClick={clearSearch}
               >
                 Clear
@@ -326,95 +349,85 @@ export default function Home() {
 
         {/* Search Results */}
         {isSearching && (
-          <Box sx={{ mb: 6 }}>
-            <Typography variant="h5" component="h3" className="mb-4">
-              Search Results ({searchResults.length})
-            </Typography>
+          <div className="mb-12">
+            <div className="w-full bg-[#F5F5F0] rounded-lg p-4 mb-6">
+              <h3 className="text-2xl font-bold text-center text-[#2c2c2c]">
+                Search Results ({searchResults.length})
+              </h3>
+            </div>
 
             {searchResults.length === 0 ? (
-              <Typography>No results found for "{searchTerm}"</Typography>
+              <p className="text-center text-white bg-white/30 p-4 rounded-lg">No results found for "{searchTerm}"</p>
             ) : (
               <>
-                {/* Group results by Ensesmble */}
-                {Array.from(new Set(searchResults.map(record => record.fields.Ensesmble || 'Other'))).map(Ensesmble => (
-                  <Box key={Ensesmble} sx={{ mb: 4 }}>
-                    <Typography
-                      variant="h6"
-                      component="h4"
-                      sx={{
-                        mb: 2,
-                        pb: 1,
-                        borderBottom: '2px solid #3f51b5',
-                        display: 'inline-block'
-                      }}
-                    >
-                      {Ensesmble}
-                    </Typography>
+                {/* Group results by Ensemble */}
+                {Array.from(new Set(searchResults.map(record => record.fields.Ensesmble || 'Other'))).map(ensemble => (
+                  <div key={ensemble} className="mb-8">
+                    <h4 className="text-xl font-semibold mb-4 px-4 py-2 bg-[#355E3B] text-white rounded-lg text-center w-auto mx-auto inline-block">
+                      {ensemble}
+                    </h4>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                      {searchResults
-                        .filter(record => (record.fields.Ensesmble || 'Other') === Ensesmble)
-                        .map((record) => (
-                          <Link href={`/product/${record.id}`} key={record.id}>
-                            <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full">
-                              <CardContent className="p-0">
-                                <div className="aspect-square relative">
+                    <div className="relative">
+                      <button className="absolute left-0 top-1/2 -translate-y-1/2 bg-[#355E3B] hover:bg-[#2c4e31] text-white rounded-full p-2 z-10 shadow-md" onClick={() => document.getElementById(`slider-${ensemble.replace(/\s+/g, '-')}`)?.scrollBy(-300, 0)}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6" /></svg>
+                      </button>
+
+                      <div
+                        id={`slider-${ensemble.replace(/\s+/g, '-')}`}
+                        className="flex overflow-x-auto pb-6 pt-2 px-2 gap-4 hide-scrollbar snap-x"
+                        style={{ scrollBehavior: 'smooth' }}
+                      >
+                        {searchResults
+                          .filter(record => (record.fields.Ensesmble || 'Other') === ensemble)
+                          .map((record) => (
+                            <Link href={`/product/${record.id}`} key={record.id} className="snap-start">
+                              <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 min-w-[200px] w-[200px]">
+                                <div className="aspect-square relative bg-white">
                                   {record.fields['Cover Scan'] && record.fields['Cover Scan'][0] ? (
-                                    <div style={{ position: 'relative', width: '100%', height: '0', paddingBottom: '100%', backgroundColor: 'white' }}>
-                                      <img
-                                        src={record.fields['Cover Scan'][0].url}
-                                        alt={record.fields['Product Name'] || 'Cover image'}
-                                        style={{
-                                          position: 'absolute',
-                                          width: '95%',
-                                          height: '95%',
-                                          objectFit: 'contain',
-                                          backgroundColor: 'white',
-                                          borderRadius: '4px'
-                                        }}
-                                      />
-                                    </div>
+                                    <img
+                                      src={record.fields['Cover Scan'][0].url}
+                                      alt={record.fields['Product Name'] || 'Cover image'}
+                                      className="absolute inset-0 m-auto w-[90%] h-[90%] object-contain"
+                                    />
                                   ) : (
-                                    <div className="w-full h-full bg-gray-200 flex items-center justify-center"
-                                      style={{ aspectRatio: '1/1' }}>
-                                      <span className="text-gray-500">No cover image</span>
+                                    <div className="flex items-center justify-center h-full text-gray-500">
+                                      No image
                                     </div>
                                   )}
                                 </div>
-
-                                <div className="p-4">
-                                  <h3 className="font-bold text-lg mb-1 truncate">{record.fields['Product Name'] || 'Untitled'}</h3>
-                                  <p className="text-sm text-gray-600 mb-1">
-                                    <span className="font-medium">Composer:</span> {record.fields['Composer'] || 'Unknown'}
-                                  </p>
-                                  <p className="text-sm text-gray-600 mb-1">
-                                    <span className="font-medium">Ensesmble:</span> {record.fields['Ensesmble'] || 'N/A'}
-                                  </p>
-                                  <p className="text-sm text-gray-600 mb-1">
-                                    <span className="font-medium">Grade Level:</span> {record.fields['Grade Level'] || 'N/A'}
-                                  </p>
-                                  <p className="text-sm font-bold text-green-600">
+                                <div className="p-3 text-center">
+                                  <h3 className="font-bold text-base mb-2 truncate">
+                                    {record.fields['Product Name'] || 'Untitled'}
+                                  </h3>
+                                  <p className="text-green-600 font-bold">
                                     ${record.fields['Price'] || 'Price not available'}
                                   </p>
                                 </div>
-                              </CardContent>
-                            </Card>
-                          </Link>
-                        ))}
+                              </div>
+                            </Link>
+                          ))}
+                      </div>
+
+                      <button className="absolute right-0 top-1/2 -translate-y-1/2 bg-[#355E3B] hover:bg-[#2c4e31] text-white rounded-full p-2 z-10 shadow-md" onClick={() => document.getElementById(`slider-${ensemble.replace(/\s+/g, '-')}`)?.scrollBy(300, 0)}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>
+                      </button>
                     </div>
-                  </Box>
+                  </div>
                 ))}
               </>
             )}
-          </Box>
+          </div>
         )}
 
         {/* Categories Section - Only show when not searching */}
         {!isSearching && (
           <div ref={categoriesRef} className="mb-12">
-            <Typography variant="h4" component="h2" className="mb-6 text-center font-bold">
+            <div className="w-full bg-[#F5F5F0] rounded-lg p-4 mb-6">
+              <h3 className="text-2xl font-bold text-center text-[#2c2c2c]">
               Music Categories
-            </Typography>
+
+              </h3>
+            </div>
             <br></br>
             <div className="flex flex-wrap -mx-2 justify-center">
               {categories.map((category, index) => (
@@ -448,120 +461,110 @@ export default function Home() {
           <>
             {/* Featured Section */}
             <div ref={featuredRef} className="mb-12">
-              <Typography variant="h4" component="h2" className="mb-6 featured-title text-center" sx={{ backgroundColor: 'rgba(255, 255, 255, 0.7)', padding: '10px', borderRadius: '8px' }}>
-                Featured Music
-              </Typography>
+              <div className="w-full bg-[#F5F5F0] rounded-lg p-4 mb-6">
+                <h3 className="text-2xl font-bold text-center text-[#2c2c2c]">
+                  Featured Music
+                </h3>
+              </div>
 
               {!loading && !error && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                  {getFeaturedRecords().map((record) => (
-                    <Link href={`/product/${record.id}`} key={record.id}>
-                      <Card className="featured-item overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full">
-                        <CardContent className="p-0">
-                          <div className="aspect-square relative">
-                            {record.fields['Cover Scan'] && record.fields['Cover Scan'][0] ? (
-                              <div style={{ position: 'relative', width: '100%', height: '0', paddingBottom: '100%', backgroundColor: 'white' }}>
-                                <img
-                                  src={record.fields['Cover Scan'][0].url}
-                                  alt={record.fields['Product Name'] || 'Cover image'}
-                                  style={{
-                                    position: 'absolute',
+                <div className="relative">
+                  <button className="absolute left-0 top-1/2 -translate-y-1/2 bg-[#355E3B] hover:bg-[#355E3B] text-white rounded-full p-2 z-10 shadow-md" onClick={() => document.getElementById('featured-slider')?.scrollBy(-300, 0)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6" /></svg>
+                  </button>
 
-                                    width: '95%',
-                                    height: '95%',
-                                    objectFit: 'contain',
-                                    backgroundColor: 'white',
-                                    borderRadius: '4px'
-                                  }}
-                                />
-                              </div>
+                  <div
+                    id="featured-slider"
+                    className="flex overflow-x-auto pb-6 pt-2 px-2 gap-4 hide-scrollbar snap-x"
+                    style={{ scrollBehavior: 'smooth' }}
+                  >
+                    {getFeaturedRecords().map((record) => (
+                      <Link href={`/product/${record.id}`} key={record.id} className="snap-start">
+                        <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 min-w-[200px] w-[200px] featured-item">
+                          <div className="aspect-square relative bg-white">
+                            {record.fields['Cover Scan'] && record.fields['Cover Scan'][0] ? (
+                              <img
+                                src={record.fields['Cover Scan'][0].url}
+                                alt={record.fields['Product Name'] || 'Cover image'}
+                                className="absolute inset-0 m-auto w-[90%] h-[90%] object-contain"
+                              />
                             ) : (
-                              <div className="w-full h-full bg-gray-200 flex items-center justify-center"
-                                style={{ aspectRatio: '1/1' }}>
-                                <span className="text-gray-500">No cover image</span>
+                              <div className="flex items-center justify-center h-full text-gray-500">
+                                No image
                               </div>
                             )}
                           </div>
-
-                          <div className="p-4">
-                            <h3 className="font-bold text-lg mb-1 truncate">{record.fields['Product Name'] || 'Untitled'}</h3>
-                            <p className="text-sm text-gray-600 mb-1">
-                              <span className="font-medium">Composer:</span> {record.fields['Composer'] || 'Unknown'}
-                            </p>
-                            <p className="text-sm text-gray-600 mb-1">
-                              <span className="font-medium">Ensesmble:</span> {record.fields['Ensesmble'] || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-600 mb-1">
-                              <span className="font-medium">Grade Level:</span> {record.fields['Grade Level'] || 'N/A'}
-                            </p>
-                            <p className="text-sm font-bold text-green-600">
+                          <div className="p-3 text-center">
+                            <h3 className="font-bold text-base mb-2 truncate">
+                              {record.fields['Product Name'] || 'Untitled'}
+                            </h3>
+                            <p className="text-green-600 font-bold">
                               ${record.fields['Price'] || 'Price not available'}
                             </p>
                           </div>
-                        </CardContent>
-                      </Card>
-                    </Link>
-                  ))}
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+
+                  <button className="absolute right-0 top-1/2 -translate-y-1/2 bg-[#355E3B] hover:bg-[#355E3B] text-white rounded-full p-2 z-10 shadow-md" onClick={() => document.getElementById('featured-slider')?.scrollBy(300, 0)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>
+                  </button>
                 </div>
               )}
             </div>
 
             {/* New Releases Section */}
             <div ref={newReleasesRef} className="mb-12">
-              <Typography variant="h4" component="h2" className="mb-6 new-release-title text-center" sx={{ backgroundColor: 'rgba(255, 255, 255, 0.7)', padding: '10px', borderRadius: '8px' }}>
-                New Releases
-              </Typography>
+              <div className="w-full bg-[#F5F5F0] rounded-lg p-4 mb-6">
+                <h3 className="text-2xl font-bold text-center text-[#2c2c2c]">
+                  New Releases
+                </h3>
+              </div>
 
               {!loading && !error && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                  {getNewReleases().map((record) => (
-                    <Link href={`/product/${record.id}`} key={record.id}>
-                      <Card className="new-release-item overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full">
-                        <CardContent className="p-0">
-                          <div className="aspect-square relative">
-                            {record.fields['Cover Scan'] && record.fields['Cover Scan'][0] ? (
-                              <div style={{ position: 'relative', width: '100%', height: '0', paddingBottom: '100%', backgroundColor: 'white' }}>
-                                <img
-                                  src={record.fields['Cover Scan'][0].url}
-                                  alt={record.fields['Product Name'] || 'Cover image'}
-                                  style={{
-                                    position: 'absolute',
+                <div className="relative">
+                  <button className="absolute left-0 top-1/2 -translate-y-1/2 bg-[#355E3B] hover:bg-[#355E3B] text-white rounded-full p-2 z-10 shadow-md" onClick={() => document.getElementById('new-releases-slider')?.scrollBy(-300, 0)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6" /></svg>
+                  </button>
 
-                                    width: '95%',
-                                    height: '95%',
-                                    objectFit: 'contain',
-                                    backgroundColor: 'white',
-                                    borderRadius: '4px'
-                                  }}
-                                />
-                              </div>
+                  <div
+                    id="new-releases-slider"
+                    className="flex overflow-x-auto pb-6 pt-2 px-2 gap-4 hide-scrollbar snap-x"
+                    style={{ scrollBehavior: 'smooth' }}
+                  >
+                    {getNewReleases().map((record) => (
+                      <Link href={`/product/${record.id}`} key={record.id} className="snap-start">
+                        <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 min-w-[200px] w-[200px] new-release-item">
+                          <div className="aspect-square relative bg-white">
+                            {record.fields['Cover Scan'] && record.fields['Cover Scan'][0] ? (
+                              <img
+                                src={record.fields['Cover Scan'][0].url}
+                                alt={record.fields['Product Name'] || 'Cover image'}
+                                className="absolute inset-0 m-auto w-[90%] h-[90%] object-contain"
+                              />
                             ) : (
-                              <div className="w-full h-full bg-gray-200 flex items-center justify-center"
-                                style={{ aspectRatio: '1/1' }}>
-                                <span className="text-gray-500">No cover image</span>
+                              <div className="flex items-center justify-center h-full text-gray-500">
+                                No image
                               </div>
                             )}
                           </div>
-
-                          <div className="p-4">
-                            <h3 className="font-bold text-lg mb-1 truncate">{record.fields['Product Name'] || 'Untitled'}</h3>
-                            <p className="text-sm text-gray-600 mb-1">
-                              <span className="font-medium">Composer:</span> {record.fields['Composer'] || 'Unknown'}
-                            </p>
-                            <p className="text-sm text-gray-600 mb-1">
-                              <span className="font-medium">Ensesmble:</span> {record.fields['Ensesmble'] || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-600 mb-1">
-                              <span className="font-medium">Grade Level:</span> {record.fields['Grade Level'] || 'N/A'}
-                            </p>
-                            <p className="text-sm font-bold text-green-600">
+                          <div className="p-3 text-center">
+                            <h3 className="font-bold text-base mb-2 truncate">
+                              {record.fields['Product Name'] || 'Untitled'}
+                            </h3>
+                            <p className="text-green-600 font-bold">
                               ${record.fields['Price'] || 'Price not available'}
                             </p>
                           </div>
-                        </CardContent>
-                      </Card>
-                    </Link>
-                  ))}
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+
+                  <button className="absolute right-0 top-1/2 -translate-y-1/2 bg-[#355E3B] hover:bg-[#355E3B] text-white rounded-full p-2 z-10 shadow-md" onClick={() => document.getElementById('new-releases-slider')?.scrollBy(300, 0)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>
+                  </button>
                 </div>
               )}
             </div>
@@ -600,7 +603,7 @@ export default function Home() {
       </Container>
 
       <div>
-<CardSection></CardSection>
+        {/* <CardSection></CardSection> */}
       </div>
 
     </div>
