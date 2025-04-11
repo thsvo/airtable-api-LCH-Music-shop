@@ -34,7 +34,7 @@ export default function ContactPage() {
                 <div className="max-w-5xl mx-auto">
                     <div className="flex flex-col md:flex-row">
                         <div className="md:w-1/3 mb-8 md:mb-0">
-                            <h1 className="text-4xl font-bold text-gray-800 mb-6 border-b-4 border-blue-600 pb-2 inline-block">
+                            <h1 className="text-4xl font-bold text-gray-800 mb-6 border-b-4 border-[#355E3B] pb-2 inline-block">
                                 Inquiries
                             </h1>
                         </div>
@@ -124,7 +124,7 @@ export default function ContactPage() {
                                 <div className="text-right">
                                     <button
                                         type="submit"
-                                        className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300"
+                                        className="bg-[#355E3B] hover:bg-[#355E3B] text-white font-medium py-2 px-6 rounded-lg transition duration-300"
                                     >
                                         Submit
                                     </button>

@@ -16,7 +16,7 @@ export default function About() {
                             founded in 2017 by award-winning composer and arranger L. C. Harnsberger, is a premier music company specializing in crafting high-quality arrangements and original compositions for band, orchestra, voice, and solo and ensemble performance music. With a distinct focus on expanding the repertoire for the French horn, LCH Music also offers a diverse range of compositions and arrangements tailored to various ensembles and musical contexts.
                         </p>
                         <div className="pt-4">
-                            <button className="bg-blue-700 hover:bg-blue-800 text-white font-medium py-2 px-6 rounded">
+                            <button className="bg-[#355E3B] hover:bg-[#355E3B] text-white font-medium py-2 px-6 rounded">
                                 Shop
                             </button>
                         </div>
